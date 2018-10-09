@@ -2,6 +2,9 @@
 #include <string>
 #include <stdlib.h> 
 #include <time.h>
+#include <windows.h>
+
+HANDLE  hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 using namespace std;
 //Clase carta
@@ -10,24 +13,37 @@ public:
 	/*La carta tiene un numero y un palo que lo identifica*/
 	int numero;
 	char palo;
-	/*Constructores padrÛn y con par·metros*/
+	/*Constructores padr√≥n y con par√°metros*/
 	carta(int a, char b): numero(a), palo(b){};
 	carta() : numero(0), palo('0') {};
 
 	/*Sobrecarga del operador <<*/
 	friend ostream & operator << (ostream& out, const carta &c) {
-		if (c.numero == 1)
-			out << "| A ";
-		else if (c.numero == 11)
-			out << "| J ";
-		else if (c.numero == 12)
-			out << "| Q ";
-		else if (c.numero == 13)
-			out << "| K ";
+		
+		if(c.palo==char(3) || c.palo==char(4))
+		    SetConsoleTextAttribute(hConsole, 36);
 		else
-			out << "| " << c.numero << " ";
+		    SetConsoleTextAttribute(hConsole, 32);
+		
+		out << "| " << c.palo;
 
-		out << c.palo << " |";
+		if (c.numero == 1)
+			out << " A ";
+		else if (c.numero == 11)
+			out << " J ";
+		else if (c.numero == 12)
+			out << " Q ";
+		else if (c.numero == 13)
+			out << " K ";
+		else
+		{
+		    if(c.numero==10)
+			out << " " << c.numero ;
+		    else
+			out << " " << c.numero << " ";
+		}
+
+		cout << " |";
 		return out;
 	}
 };
@@ -35,7 +51,7 @@ public:
 
 
 /*Clase nodo:
-Nos permitir· implementar listas enlazadas para las cartas*/
+Nos permitir√° implementar listas enlazadas para las cartas*/
 template <class T>
 class Node {
 public:
@@ -49,7 +65,7 @@ public:
 };
 
 /*Clase mazo:
-Funciona como una pila (asÌ funcionan todos los mazos)
+Funciona como una pila (as√≠ funcionan todos los mazos)
 de manera que la insercion es al comienzo, y solo se puede
 sacar una carta de arriba*/
 template <class T>
@@ -63,7 +79,7 @@ public:
 	void shuffle();
 };
 
-/*FunciÛn pop para sacar la carta que
+/*Funci√≥n pop para sacar la carta que
 este encima del mazo*/
 template <class T>
 T mazo<T>::popC() {
@@ -135,7 +151,7 @@ public:
 };
 
 /*addCard:
-Nos ayuda a aÒadir las cartas que saquemos 
+Nos ayuda a a√±adir las cartas que saquemos 
 a la mano del jugador*/
 template <class T>
 bool cartasMano<T>::addCard(T carta){
@@ -198,7 +214,7 @@ public:
 
 
 /*Take card:
-Funcion que aÒade una carta a la
+Funcion que a√±ade una carta a la
 mano del jugador*/
 template <class T>
 bool Jugador<T>::takeCard(T carta) {
@@ -252,7 +268,7 @@ public:
 };
 
 /*addPlayer:
-AÒade un nuevo jugador, siempre al final de la lista
+A√±ade un nuevo jugador, siempre al final de la lista
 Los jugadores deben insertarse en el orden de juego*/
 template <class T>
 bool listaJugadores<T>::addPlayer(string name) {
@@ -344,6 +360,7 @@ ochoLocos::ochoLocos(int num) {
 int main(){
 
 	ochoLocos mijuego(5);
-
+	
+	SetConsoleTextAttribute(hConsole, 15);
 	return 0;
 }

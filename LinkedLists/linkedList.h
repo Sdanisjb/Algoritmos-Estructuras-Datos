@@ -49,8 +49,8 @@ linkedList<T, C>::linkedList() : head (NULL){};
 template <class T, class C>
 bool linkedList<T, C>::find(T x, Node<T>**&p) {
 	for (p = &head;
-		*p && comp((*p)->data, x);
-		p = &((*p)->next));
+	*p && comp((*p)->data, x);
+	p = &((*p)->next));
 	return *p && (*p)->data == x;
 }
 
@@ -107,7 +107,7 @@ class DLinkedList {
 public:
 	DNode<T>* head, *tail;
 	C comp;
-
+	
 	DLinkedList();
 	bool find(T x,DNode<T>**&, DNode<T>**&);
 	bool insert(T x);
@@ -123,13 +123,13 @@ DLinkedList<T,C>::DLinkedList() : head(NULL), tail(NULL) {};
 template <class T, class C>
 bool DLinkedList<T, C>::find(T x, DNode<T>**& p, DNode<T>**& n) {
 	for (p = &head;
-		*p && comp((*p)->data, x);
-		p = &((*p)->next));
+	*p && comp((*p)->data, x);
+	p = &((*p)->next));
 	
 	for (n = &tail;
-		*n && comp(x, (*n)->data);
-		n = &((*n)->prev));	
-
+	*n && comp(x, (*n)->data);
+	n = &((*n)->prev));	
+	
 	return *p && (*p)->data == x;
 }
 
@@ -167,7 +167,7 @@ void DLinkedList<T, C>::print() {
 		p = p->next;
 	}
 	std::cout<< p->data<< std::endl;
-
+	
 	while (p->prev) {
 		std::cout << p->data << "\t";
 		p = p->prev;
@@ -197,11 +197,11 @@ ClinkedList<T, C>::ClinkedList() : head(NULL) {};
 template <class T, class C>
 bool ClinkedList<T, C>::find(T x, Node<T>**&p) {
 	for (p = &head;
-		comp((*p)->data, x) && (*p)->next != head;
-		p = &((*p)->next));
-
+	comp((*p)->data, x) && (*p)->next != head;
+	p = &((*p)->next));
+	
 	if (comp((*p)->data, x)) p = &((*p)->next);
-
+	
 	return (*p)->data == x;
 }
 
@@ -271,7 +271,7 @@ class CDLinkedList {
 public:
 	DNode<T>* head, *tail;
 	C comp;
-
+	
 	CDLinkedList();
 	bool find(T x, DNode<T>**&, DNode<T>**&);
 	bool insert(T x);
@@ -287,13 +287,13 @@ CDLinkedList<T, C>::CDLinkedList() : head(NULL), tail(NULL) {};
 template <class T, class C>
 bool CDLinkedList<T, C>::find(T x, DNode<T>**& p, DNode<T>**& n) {
 	for (p = &head;
-		(*p)->next!=head && comp((*p)->data, x);
-		p = &((*p)->next));
-
+	(*p)->next!=head && comp((*p)->data, x);
+	p = &((*p)->next));
+	
 	for (n = &tail;
-		(*n)->prev!=tail && comp(x, (*n)->data);
-		n = &((*n)->prev));
-
+	(*n)->prev!=tail && comp(x, (*n)->data);
+	n = &((*n)->prev));
+	
 	return (*p)->data == x;
 }
 
@@ -317,7 +317,7 @@ bool CDLinkedList<T, C>::insert(T x) {
 		q->next = t;
 		t->prev = q;
 		head = t;
-
+		
 		for (q2 = tail; q2->prev != tail; q2 = q2->prev);
 		q2->prev = t;
 		t->next = q2;
@@ -330,7 +330,7 @@ bool CDLinkedList<T, C>::insert(T x) {
 		q->prev = t;
 		t->next = q;
 		tail = t;
-
+		
 		for (q2 = head; q2->next != head; q2 = q2->next);
 		q2->next = t;
 		t->prev = q2;
@@ -349,7 +349,7 @@ bool CDLinkedList<T, C>::erase(T x) {
 	if (*p == head && (*p)->next == head) {
 		head = NULL;
 		tail = NULL;
-
+		
 		delete temp;
 		return 1;
 	}
@@ -358,13 +358,13 @@ bool CDLinkedList<T, C>::erase(T x) {
 		for (q = head; q->next != head; q = q->next);
 		q->next = (*p)->next;
 		
-
+		
 		for (q2 = tail; q2->prev != head; q2 = q2->prev);
 		q2->prev = (*p)->prev;
-
+		
 		head = q->next;
 		tail = q2->prev;
-
+		
 		delete temp;
 		return 1;
 	}
@@ -372,13 +372,13 @@ bool CDLinkedList<T, C>::erase(T x) {
 		DNode<T> *q, *q2;
 		for (q = tail; q->prev != tail; q = q->prev);
 		q->prev = (*p)->prev;
-
+		
 		for (q2 = head; q2->next != tail; q2 = q2->next);
 		q2->next = (*p)->next;
-
+		
 		tail = q->prev;
 		head = q2->next;
-
+		
 		delete temp;
 		return 1;
 	}	
@@ -401,7 +401,7 @@ void CDLinkedList<T, C>::print() {
 		p = p->next;
 	}
 	std::cout << p->data << std::endl;// " " << p << " " << p->next << " " << p->prev << std::endl;
-
+	
 	p = tail;
 	while (p->prev != tail) {
 		std::cout << p->data << "\t";
@@ -409,3 +409,78 @@ void CDLinkedList<T, C>::print() {
 	}
 	std::cout << p->data << std::endl;
 }
+
+//Clase vector
+//Forward iterador
+template <class T>
+class vecFWiterator{
+	T* m_i;
+public:
+	vecFWiterator(T*p = 0):m_i(p){};
+	vecFWiterator operator=(vecFWiterator a){
+		m_i = a.m_i;
+		return *this;
+	}
+	
+	bool operator!=(vecFWiterator a){return m_i != a.m_i;}
+	
+	vecFWiterator operator++(int){
+		m_i++;
+		return *this;
+	}
+	
+	T operator*(){return *m_i;}
+};
+
+//Reverse iterator
+template <class T>
+class vecRViterator{
+	T* m_i;
+public:
+	vecRViterator(T*p = 0):m_i(p){};
+	vecRViterator operator=(vecRViterator a){
+		m_i = a.m_i;
+		return *this;
+	}
+	
+	bool operator!=(vecRViterator a){return m_i != a.m_i;}
+	
+	vecRViterator operator++(int){
+		m_i--;
+		return *this;
+	}
+	
+	T operator*(){return *m_i;}
+};
+
+//Clase en si
+template <class T>
+class vector{
+	T* vec;
+	int size;
+public:
+	vector(int n){
+		vec = new T[n];
+		size = n;
+		for(int i=0;i<n;i++){
+			vec[i] = i+1;
+		}
+	}
+	void print(){
+		for(int i=0;i<size;i++)
+			std::cout<<vec[i]<<" ";
+		std::cout<<std::endl;
+	}
+	//Declaracion del iterador
+	typedef vecFWiterator<T> iterator;
+	typedef vecRViterator<T> riterator;
+	
+	//iterator
+	iterator begin(){return iterator(vec);}
+	iterator end(){return iterator(vec+size);}
+	
+	//riterator
+	riterator rbegin(){return riterator(vec+size-1);}
+	riterator rend(){return riterator(vec-1);}
+};
+
